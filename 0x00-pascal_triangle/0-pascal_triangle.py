@@ -9,6 +9,13 @@
 
 
 def pascal_triangle(n):
+    """sumary_line
+    
+    Keyword arguments:
+    argument -- description
+    Return: return_description
+    """
+    
     if n <= 0:
         return []
     traingle = [[1]]
