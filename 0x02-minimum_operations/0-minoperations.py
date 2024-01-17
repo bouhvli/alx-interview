@@ -13,11 +13,12 @@ def minOperations(n):
     """
     if (n <= 1):
         return (0)
-    res = [float('inf')] * (n + 1)
-    res[1] = 0
-
-    for i in range(2, n + 1):
-        for j in range(1, int(i**0.5) + 1):
-            if i % j == 0:
-                res[i] = min(res[i], res[j] + i // j, res[i // j] + j)
-    return res[n]
+    cp = 0
+    cpp = 2
+    while cpp <= n:
+        if (n % cpp == 0):
+            cp += cpp
+            n = n / cpp
+            cpp -= 1
+        cpp += 1
+    return cp
