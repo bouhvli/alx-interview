@@ -11,17 +11,6 @@ def print_statistics(ttl_s, status_code_c):
             print('{}: {}'.format(key, value))
 
 
-def parse_line(line):
-    try:
-        parts = line.split()
-        ip_addr = parts[0]
-        status_code = int(parts[-2])
-        file_size = int(parts[-1])
-        return ip_addr, status_code, file_size
-    except (ValueError, IndexError):
-        return None, None, None
-
-
 if __name__ == '__main__':
     file_size, count = 0, 0
     codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
