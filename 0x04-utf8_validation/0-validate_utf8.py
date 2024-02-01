@@ -1,24 +1,22 @@
 #!/usr/bin/python3
 """
-this methode checks the validity.
+this methode checks the UTF-8 validity.
 """
 
 
 def validUTF8(data):
     i = 0
     while i < len(data):
-        if data[i] & 0b10000000 == 0:
+        if data[i] < 128:
             i += 1
         else:
             num_bytes = 0
-            while i < len(data) and data[i] &\
-                    (0b10000000 >> num_bytes) ==\
-                    (0b10000000 >> (num_bytes + 1)):
+            while i < len(data) and (data[i] >> 6) == 0b10:
                 num_bytes += 1
             if num_bytes < 1 or num_bytes > 3 or i + num_bytes >= len(data):
                 return False
             for j in range(1, num_bytes + 1):
-                if data[i + j] & 0b11000000 != 0b10000000:
+                if (data[i + j] >> 6) != 0b10:
                     return False
             i += num_bytes + 1
     return True
