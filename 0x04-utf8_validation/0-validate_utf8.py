@@ -6,17 +6,23 @@ this methode checks the UTF-8 validity.
 
 def validUTF8(data):
     i = 0
-    while i < len(data):
-        if data[i] < 128:
-            i += 1
-        else:
-            num_bytes = 0
-            while i < len(data) and (data[i] >> 6) == 0b10:
-                num_bytes += 1
-            if num_bytes < 1 or num_bytes > 3 or i + num_bytes >= len(data):
+    for v in data:
+        if i == 0:
+            if v & 128 == 0:
+                i = 0
+            elif v & 224 == 192:
+                i = 1
+            elif v & 240 == 224:
+                i = 2
+            elif v & 248 == 240:
+                i = 3
+            else:
                 return False
-            for j in range(1, num_bytes + 1):
-                if (data[i + j] >> 6) != 0b10:
-                    return False
-            i += num_bytes + 1
-    return True
+        else:
+            if v & 192 != 128:
+                return False
+            i -= 1
+    if i == 0:
+        return True
+    return False
+
