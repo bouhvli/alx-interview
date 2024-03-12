@@ -27,7 +27,7 @@ def SieveOfEratosthenes(n):
       returns:
         list of prime numbers.
     """
-    prime = [True for _ in range(n + 1)]
+    prime = [True for i in range(n + 1)]
     prime_number = []
     p = 2
 
@@ -40,31 +40,6 @@ def SieveOfEratosthenes(n):
         if prime[p]:
             prime_number.append(p)
     return prime_number
-
-
-def makeList(n):
-    """
-      method: makeLst
-      desc: make a list from 1 until n + 1
-      attributes:
-        n: int, max number.
-      returns:
-        list of numbers.
-    """
-    return [num for num in range(1, n + 1)]
-
-
-def removeMultiples(nums, prime):
-    """
-      method: removeMultiples
-      desc: removes the multiples of a given prime number from a list
-      attributes:
-        nums: list of ints.
-        prime: prime number.
-      returns:
-        list free from multiples of prime.
-    """
-    return [num for num in nums if num % prime != 0]
 
 
 def isWinner(x, nums):
@@ -81,29 +56,23 @@ def isWinner(x, nums):
     """
     if x <= 0 or nums is None or x != len(nums):
         return None
-    maria_wins, marias_round = 0, True
-    ben_wins, bens_round = 0, False
-    for roundC in range(x):
-        num_list = makeList(nums[roundC])
-        prime_numbers_list = SieveOfEratosthenes(nums[roundC])
-        if not prime_numbers_list:
+    max_num = max(nums)
+    prime_numbers = SieveOfEratosthenes(max_num)
+    ben_wins = 0
+    maria_wins = 0
+    for i in range(x):
+        num_list = list(range(1, nums[i] + 1))
+        for prime in prime_numbers:
+            if prime > nums[i]:
+                break
+            num_list = [num for num in num_list if num % prime != 0]
+        if len(num_list) % 2 == 0:
             ben_wins += 1
         else:
-            for i in range(0, len(prime_numbers_list)):
-                if marias_round:
-                    num_list = removeMultiples(num_list, prime_numbers_list[i])
-                    marias_round, bens_round = False, True
-                elif bens_round:
-                    num_list = removeMultiples(num_list, prime_numbers_list[i])
-                    marias_round, bens_round = True, False
-            if marias_round:
-                ben_wins += 1
-            else:
-                maria_wins += 1
-        marias_round, bens_round = True, False
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif ben_wins > maria_wins:
+            maria_wins += 1
+    if ben_wins > maria_wins:
         return "Ben"
+    elif maria_wins > ben_wins:
+        return "Maria"
     else:
         return None
