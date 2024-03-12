@@ -27,7 +27,7 @@ def SieveOfEratosthenes(n):
       returns:
         list of prime numbers.
     """
-    prime = [True for i in range(n + 1)]
+    prime = [True for _ in range(n + 1)]
     prime_number = []
     p = 2
 
@@ -79,6 +79,8 @@ def isWinner(x, nums):
       returns:
         the winner of the game.
     """
+    if x <= 0 or nums is None or x != len(nums):
+        return None
     maria_wins, marias_round = 0, True
     ben_wins, bens_round = 0, False
     for roundC in range(x):
